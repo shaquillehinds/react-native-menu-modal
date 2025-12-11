@@ -5,6 +5,8 @@
 
 A simple, elegant context menu modal for React Native that appears at the touch location. Perfect for creating contextual menus, dropdown options, and interactive lists triggered by press or long-press gestures.
 
+<img src="https://raw.githubusercontent.com/shaquillehinds/react-native-menu-modal/master/assets/menumodal.gif" alt="example" height="500"/>
+
 ## Features
 
 - 🎯 **Position-aware** - Opens at exact touch coordinates
