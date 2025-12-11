@@ -15,6 +15,24 @@ A simple, elegant context menu modal for React Native that appears at the touch 
 - 🚀 **Performant** - Built with react-native-reanimated and gesture-handler
 - 🎭 **Portal support** - Render menus in a portal layer or native modal
 - ♿ **Accessible** - Supports subtitles and custom components
+- 🎁 **Zero config** - Works out of the box, no provider required!
+
+## Quick Start
+
+```tsx
+import { MenuModal } from '@shaquillehinds/react-native-menu-modal';
+
+// That's it! Works immediately without any setup
+<MenuModal
+  backgroundColor="#1a1a1a"
+  options={[
+    { title: 'Edit', onOptionPress: () => console.log('Edit') },
+    { title: 'Delete', onOptionPress: () => console.log('Delete') },
+  ]}
+>
+  <Text>Press me!</Text>
+</MenuModal>;
+```
 
 ## Installation
 
@@ -43,6 +61,78 @@ yarn add @shaquillehinds/react-native-spot-modal react-native-reanimated react-n
 ```
 
 > **Note:** Make sure to complete the setup for [react-native-reanimated](https://docs.swmansion.com/react-native-reanimated/docs/fundamentals/getting-started/) and [react-native-gesture-handler](https://docs.swmansion.com/react-native-gesture-handler/docs/fundamentals/installation).
+
+### Portal Provider Setup (Optional)
+
+The `MenuModalPortalProvider` is **optional**. The menu modal works out of the box without it by falling back to React Native's `Modal` component. However, the portal provider offers better control and rendering flexibility.
+
+**Quick Start (No Provider Needed):**
+
+```tsx
+import { MenuModal } from '@shaquillehinds/react-native-menu-modal';
+
+// Works immediately - uses React Native Modal as fallback
+export default function App() {
+  return (
+    <MenuModal
+      backgroundColor="#1a1a1a"
+      options={[
+        { title: 'Option 1', onOptionPress: () => console.log('1') },
+        { title: 'Option 2', onOptionPress: () => console.log('2') },
+      ]}
+    >
+      <Text>Press me</Text>
+    </MenuModal>
+  );
+}
+```
+
+**With Portal Provider (Recommended for Better Control):**
+
+If you want more control over rendering layers, add the provider at the root of your application:
+
+```tsx
+import { MenuModalPortalProvider } from '@shaquillehinds/react-native-menu-modal';
+
+export default function App() {
+  return (
+    <MenuModalPortalProvider>{/* Your app content */}</MenuModalPortalProvider>
+  );
+}
+```
+
+**For Expo Router:**
+
+```tsx
+// app/_layout.tsx
+import { MenuModalPortalProvider } from '@shaquillehinds/react-native-menu-modal';
+import { Stack } from 'expo-router';
+
+export default function RootLayout() {
+  return (
+    <MenuModalPortalProvider>
+      <Stack />
+    </MenuModalPortalProvider>
+  );
+}
+```
+
+**For React Navigation:**
+
+```tsx
+import { NavigationContainer } from '@react-navigation/native';
+import { MenuModalPortalProvider } from '@shaquillehinds/react-native-menu-modal';
+
+export default function App() {
+  return (
+    <MenuModalPortalProvider>
+      <NavigationContainer>{/* Your navigators */}</NavigationContainer>
+    </MenuModalPortalProvider>
+  );
+}
+```
+
+> **Note:** When using the portal provider, it should be placed as high as possible in your component tree, typically wrapping your navigation or root component.
 
 ## Usage
 
@@ -289,24 +379,24 @@ function MyComponent() {
 
 ### MenuModal Props
 
-| Prop                    | Type                                           | Default      | Description                                                            |
-| ----------------------- | ---------------------------------------------- | ------------ | ---------------------------------------------------------------------- |
-| `children`              | `ReactNode`                                    | **required** | The component that triggers the menu                                   |
-| `options`               | `MenuOption[]`                                 | **required** | Array of menu options                                                  |
-| `backgroundColor`       | `string`                                       | **required** | Background color of the menu                                           |
-| `activateOn`            | `'press' \| 'long-press'`                      | `'press'`    | How to trigger the menu                                                |
-| `onPress`               | `() => void \| Promise<void>`                  | `undefined`  | Callback when trigger is pressed                                       |
-| `onLongPress`           | `() => void \| Promise<void>`                  | `undefined`  | Callback when trigger is long-pressed                                  |
-| `separatorStyle`        | `ViewStyle`                                    | `undefined`  | Custom style for option separators                                     |
-| `disableDismissOnPress` | `boolean`                                      | `false`      | Prevent menu from dismissing on option press                           |
-| `disablePortal`         | `boolean`                                      | `false`      | Disable portal rendering                                               |
-| `disableNativeModal`    | `boolean`                                      | `false`      | Disable native modal usage                                             |
-| `refMenuModal`          | `React.MutableRefObject<MenuModalRef \| null>` | `undefined`  | Ref for imperative control                                             |
-| `scrollable`            | `boolean`                                      | `false`      | Enable scrolling for long menus                                        |
-| `maxHeight`             | `number`                                       | `undefined`  | Maximum height when scrollable                                         |
-| `padding`               | `number \| [number, number]`                   | `[2, 5]`     | Menu padding                                                           |
-| `borderRadius`          | `number`                                       | `15`         | Menu border radius                                                     |
-| `...LayoutProps`        | `LayoutProps`                                  | -            | Additional layout props from `@shaquillehinds/react-native-essentials` |
+| Prop                    | Type                                           | Default      | Description                                                                                        |
+| ----------------------- | ---------------------------------------------- | ------------ | -------------------------------------------------------------------------------------------------- |
+| `children`              | `ReactNode`                                    | **required** | The component that triggers the menu                                                               |
+| `options`               | `MenuOption[]`                                 | **required** | Array of menu options                                                                              |
+| `backgroundColor`       | `string`                                       | **required** | Background color of the menu                                                                       |
+| `activateOn`            | `'press' \| 'long-press'`                      | `'press'`    | How to trigger the menu                                                                            |
+| `onPress`               | `() => void \| Promise<void>`                  | `undefined`  | Callback when trigger is pressed                                                                   |
+| `onLongPress`           | `() => void \| Promise<void>`                  | `undefined`  | Callback when trigger is long-pressed                                                              |
+| `separatorStyle`        | `ViewStyle`                                    | `undefined`  | Custom style for option separators                                                                 |
+| `disableDismissOnPress` | `boolean`                                      | `false`      | Prevent menu from dismissing on option press                                                       |
+| `disablePortal`         | `boolean`                                      | `false`      | Disable portal rendering (even if provider exists). Falls back to native modal or inline rendering |
+| `disableNativeModal`    | `boolean`                                      | `false`      | Disable native Modal component. Only use portal (if provider exists) or inline rendering           |
+| `refMenuModal`          | `React.MutableRefObject<MenuModalRef \| null>` | `undefined`  | Ref for imperative control                                                                         |
+| `scrollable`            | `boolean`                                      | `false`      | Enable scrolling for long menus                                                                    |
+| `maxHeight`             | `number`                                       | `undefined`  | Maximum height when scrollable                                                                     |
+| `padding`               | `number \| [number, number]`                   | `[2, 5]`     | Menu padding                                                                                       |
+| `borderRadius`          | `number`                                       | `15`         | Menu border radius                                                                                 |
+| `...LayoutProps`        | `LayoutProps`                                  | -            | Additional layout props from `@shaquillehinds/react-native-essentials`                             |
 
 ### MenuOption Interface
 
@@ -360,6 +450,78 @@ Extends `BaseTextProps` from `@shaquillehinds/react-native-essentials` with:
 - `fontSize?: 'bodyS' | 'bodyL'`
 
 ## Advanced Usage
+
+### Using Portal Hooks
+
+The package exports portal utilities from `@shaquillehinds/react-native-spot-modal` for advanced use cases:
+
+```tsx
+import {
+  useMenuModalPortal,
+  useMenuModalPortalComponent,
+  type PortalItem,
+} from '@shaquillehinds/react-native-menu-modal';
+
+function MyComponent() {
+  // Access the portal API directly
+  const portal = useMenuModalPortal();
+
+  // Add a component to the portal
+  const addToPortal = () => {
+    const portalItem: PortalItem = {
+      id: 'my-custom-overlay',
+      component: <MyCustomOverlay />,
+    };
+    portal.add(portalItem);
+  };
+
+  // Remove from portal
+  const removeFromPortal = () => {
+    portal.remove('my-custom-overlay');
+  };
+
+  return (
+    <View>
+      <Button title="Show Overlay" onPress={addToPortal} />
+      <Button title="Hide Overlay" onPress={removeFromPortal} />
+    </View>
+  );
+}
+```
+
+**Using `useMenuModalPortalComponent` for Reusable Portal Components:**
+
+```tsx
+import { useMenuModalPortalComponent } from '@shaquillehinds/react-native-menu-modal';
+
+function MyPortalComponent() {
+  // Automatically manages adding/removing from portal
+  useMenuModalPortalComponent({
+    id: 'notification-toast',
+    component: (
+      <View style={styles.toast}>
+        <Text>This is rendered in the portal!</Text>
+      </View>
+    ),
+  });
+
+  return null; // This component doesn't render anything directly
+}
+
+// Use it anywhere in your app
+function App() {
+  const [showToast, setShowToast] = useState(false);
+
+  return (
+    <MenuModalPortalProvider>
+      {showToast && <MyPortalComponent />}
+      <Button title="Show Toast" onPress={() => setShowToast(true)} />
+    </MenuModalPortalProvider>
+  );
+}
+```
+
+> **Note:** These hooks are useful for custom overlay components or when you need more control over portal rendering. For most menu use cases, the standard `MenuModal` component handles portal management automatically.
 
 ### Dynamic Options
 
@@ -516,21 +678,152 @@ const isDark = useColorScheme() === 'dark';
 </MenuModal>;
 ```
 
-### Portal Usage
+### Rendering Modes & Portal Usage
 
-By default, the menu uses `@shaquillehinds/react-native-spot-modal` which handles positioning. For most cases, you won't need to modify portal settings. However:
+The menu modal supports multiple rendering modes with automatic fallback:
 
-- Set `disablePortal={true}` if you need the menu to render within its parent hierarchy
-- Set `disableNativeModal={true}` to use RN's built-in Modal component behavior
+**Default Behavior (Automatic Fallback Chain):**
+
+1. **With Portal Provider** → Uses portal layer (best option)
+2. **Without Portal Provider** → Falls back to React Native's `Modal` component
+3. Both work perfectly fine out of the box!
+
+```tsx
+// Works without any provider - uses React Native Modal
+<MenuModal
+  backgroundColor="#1a1a1a"
+  options={[...]}
+>
+  <Text>Works Immediately!</Text>
+</MenuModal>
+
+// With provider - uses portal layer
+<MenuModalPortalProvider>
+  <MenuModal
+    backgroundColor="#1a1a1a"
+    options={[...]}
+  >
+    <Text>Uses Portal Layer</Text>
+  </MenuModal>
+</MenuModalPortalProvider>
+```
+
+**Disabling Native Modal (forces portal or inline):**
+
+```tsx
+// If you have a portal provider but want to disable the native modal fallback
+<MenuModal
+  backgroundColor="#1a1a1a"
+  disableNativeModal={true}
+  options={[...]}
+>
+  <Text>Portal Only (no native modal fallback)</Text>
+</MenuModal>
+```
+
+**Disabling Portal (forces native modal or inline):**
+
+```tsx
+// Even with a portal provider present, opt-out to use native modal
+<MenuModalPortalProvider>
+  <MenuModal
+    backgroundColor="#1a1a1a"
+    disablePortal={true}
+    options={[...]}
+  >
+    <Text>Skips Portal, Uses Native Modal</Text>
+  </MenuModal>
+</MenuModalPortalProvider>
+```
+
+**Disabling Both (inline rendering only):**
+
+```tsx
+// Renders within parent container bounds - useful for specific layouts
+<MenuModal
+  backgroundColor="#1a1a1a"
+  disablePortal={true}
+  disableNativeModal={true}
+  options={[...]}
+>
+  <Text>Renders Inline (respects parent overflow/z-index)</Text>
+</MenuModal>
+```
+
+**When to Use Each Mode:**
+
+| Mode                                                    | Use Case                                                                                       |
+| ------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| **Portal** (default with provider)                      | Best for most cases - renders above all content with proper layering                           |
+| **Native Modal** (default without provider)             | Automatic fallback - works everywhere, good for full-screen menus                              |
+| **Inline** (`disablePortal` + `disableNativeModal`)     | When you need the menu constrained within a specific container or scrollable area              |
+| **Portal disabled** (`disablePortal={true}`)            | Opt out of portal when you have the provider but want native modal behavior for specific menus |
+| **Native Modal disabled** (`disableNativeModal={true}`) | Force portal-only rendering without native modal fallback                                      |
+
+**Example: Mixed Usage**
+
+```tsx
+<MenuModalPortalProvider>
+  {/* Uses portal - rendered in top layer */}
+  <MenuModal backgroundColor="#1a1a1a" options={normalOptions}>
+    <Text>Normal Menu</Text>
+  </MenuModal>
+
+  {/* Opts out of portal - uses native modal instead */}
+  <MenuModal
+    backgroundColor="#1a1a1a"
+    disablePortal
+    options={fullscreenOptions}
+  >
+    <Text>Fullscreen Menu</Text>
+  </MenuModal>
+
+  <ScrollView>
+    {/* Renders inline within ScrollView bounds */}
+    <MenuModal
+      backgroundColor="#1a1a1a"
+      disablePortal
+      disableNativeModal
+      options={inlineOptions}
+    >
+      <Text>Constrained Menu</Text>
+    </MenuModal>
+  </ScrollView>
+</MenuModalPortalProvider>
+```
+
+> **Summary:** The package is flexible and works immediately without any setup. Add the portal provider for enhanced control, or use the disable props to customize rendering per menu instance.
 
 ## Troubleshooting
 
 ### Menu not appearing
 
 1. Ensure `backgroundColor` is set (it's required)
-2. Check that peer dependencies are installed
-3. Verify react-native-reanimated is properly configured
+2. Check that peer dependencies are installed and properly configured
+3. Verify react-native-reanimated is properly configured in `babel.config.js`:
+   ```js
+   module.exports = {
+     presets: ['module:metro-react-native-babel-preset'],
+     plugins: ['react-native-reanimated/plugin'], // Must be last
+   };
+   ```
 4. Check console for any errors
+5. If using custom `disablePortal` and `disableNativeModal` props, ensure the parent container has appropriate dimensions
+
+### Portal-specific issues
+
+**Note:** The portal provider is **optional** - the menu works fine without it using React Native's Modal component.
+
+**If you choose to use the portal provider:**
+
+- Place `MenuModalPortalProvider` as high as possible in your component tree
+- If using React Navigation, place provider outside `NavigationContainer`
+- If using Expo Router, place it in `app/_layout.tsx`
+
+**"Cannot read property 'add' of undefined" error:**
+
+- This only occurs if you use portal hooks (`useMenuModalPortal`, `useMenuModalPortalComponent`) without the provider
+- The `MenuModal` component itself does NOT require the provider and will work without this error
 
 ### Menu position is off
 
