@@ -1,7 +1,7 @@
 # @shaquillehinds/react-native-menu-modal
 
 [![npm version](https://img.shields.io/npm/v/@shaquillehinds/react-native-menu-modal.svg)](https://www.npmjs.com/package/@shaquillehinds/react-native-menu-modal)
-[![license](https://img.shields.io/npm/l/@shaquillehinds/react-native-menu-modal.svg)](https://github.com/shaquillehinds/react-native-menu-modal/blob/main/LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 A simple, elegant context menu modal for React Native that appears at the touch location. Perfect for creating contextual menus, dropdown options, and interactive lists triggered by press or long-press gestures.
 
