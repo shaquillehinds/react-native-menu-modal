@@ -112,6 +112,11 @@
     "react-native": "*",
     "@shaquillehinds/react-native-spot-modal": ">=0.0.4"
   },
+  "peerDependenciesMeta": {
+    "@shaquillehinds/react-native-spot-modal": {
+      "optional": false
+    }
+  },
   "workspaces": [
     "example"
   ],
