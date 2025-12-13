@@ -77,9 +77,7 @@
     "registry": "https://registry.npmjs.org/",
     "access": "public"
   },
-  "dependencies": {
-    "@shaquillehinds/react-native-essentials": "^1.8.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@commitlint/config-conventional": "^19.6.0",
     "@react-native/eslint-config": "^0.73.1",
@@ -110,7 +108,7 @@
   "peerDependencies": {
     "react": "*",
     "react-native": "*",
-    "@shaquillehinds/react-native-spot-modal": ">=0.0.4"
+    "@shaquillehinds/react-native-spot-modal": ">=0.0.5"
   },
   "peerDependenciesMeta": {
     "@shaquillehinds/react-native-spot-modal": {
